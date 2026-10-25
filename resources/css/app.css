@@ -1,0 +1,244 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../views/**/*.blade.php';
+
+@theme {
+    --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+    --color-brand-50: #F7FEE7;
+    --color-brand-100: #ECFCCB;
+    --color-brand-200: #D9F99D;
+    --color-brand-300: #BEF264;
+    --color-brand-400: #A3E635;
+    --color-brand-500: #84CC16;
+    --color-brand-600: #65A30D;
+    --color-brand-700: #4D7C0F;
+
+    --color-ink-950: #0B1220;
+    --color-ink-900: #111827; /* dark sidebar / base accent */
+    --color-ink-800: #1E293B; /* slate navy */
+    --color-ink-700: #283548;
+
+    --color-heading: #0F172A;
+    --color-muted: #64748B;
+    --color-canvas: #F8FAFC;
+
+    --shadow-soft: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px -12px rgba(15, 23, 42, 0.12);
+    --shadow-lift: 0 2px 4px rgba(15, 23, 42, 0.05), 0 18px 40px -18px rgba(15, 23, 42, 0.22);
+    --shadow-glow: 0 0 0 1px rgba(163, 230, 53, 0.35), 0 10px 30px -10px rgba(132, 204, 22, 0.45);
+}
+
+/* ---------------------------------------------------------------- base ---- */
+@layer base {
+    html {
+        -webkit-text-size-adjust: 100%;
+        scroll-behavior: smooth;
+    }
+
+    body {
+        @apply bg-canvas text-heading font-sans antialiased;
+    }
+
+    [x-cloak] {
+        display: none !important;
+    }
+
+    ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        @apply rounded-full bg-slate-300/70;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        @apply bg-slate-400;
+    }
+}
+
+/* ---------------------------------------------------------- components ---- */
+@layer components {
+    /* Glass surfaces */
+    .glass {
+        @apply border border-white/60 bg-white/70 backdrop-blur-xl;
+    }
+
+    .glass-dark {
+        @apply border border-white/10 bg-white/[0.04] backdrop-blur-xl;
+    }
+
+    .card {
+        @apply rounded-2xl border border-slate-200/80 bg-white shadow-soft;
+    }
+
+    .card-hover {
+        @apply transition duration-300 ease-out hover:-translate-y-0.5 hover:border-slate-300/80 hover:shadow-lift;
+    }
+
+    /* Buttons */
+    .btn, .btn-primary, .btn-dark, .btn-ghost, .btn-danger {
+        @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold
+               transition duration-200 ease-out focus-visible:outline-none focus-visible:ring-2
+               focus-visible:ring-brand-400 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60;
+    }
+
+    .btn-primary {
+        @apply bg-brand-400 text-ink-900 shadow-[0_1px_0_rgba(255,255,255,0.4)_inset] hover:bg-brand-300 hover:shadow-glow active:translate-y-px;
+    }
+
+    .btn-dark {
+        @apply bg-ink-900 text-white hover:bg-ink-800 active:translate-y-px;
+    }
+
+    .btn-ghost {
+        @apply border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50;
+    }
+
+    .btn-danger {
+        @apply bg-rose-50 text-rose-600 ring-1 ring-rose-200 hover:bg-rose-100;
+    }
+
+    .btn-sm {
+        @apply rounded-lg px-3 py-1.5 text-xs;
+    }
+
+    /* Form controls */
+    .label {
+        @apply mb-1.5 block text-[13px] font-semibold text-heading;
+    }
+
+    .input {
+        @apply w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-heading
+               placeholder:text-slate-400 shadow-[0_1px_2px_rgba(15,23,42,0.04)]
+               transition duration-200 hover:border-slate-300
+               focus:border-brand-400 focus:ring-4 focus:ring-brand-400/20;
+    }
+
+    .input-error {
+        @apply border-rose-300 focus:border-rose-400 focus:ring-rose-400/20;
+    }
+
+    .help {
+        @apply mt-1.5 text-xs text-muted;
+    }
+
+    .error {
+        @apply mt-1.5 flex items-center gap-1 text-xs font-medium text-rose-600;
+    }
+
+    /* Badges */
+    .badge {
+        @apply inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-semibold ring-1 ring-inset;
+    }
+
+    /* Sidebar nav */
+    .nav-link {
+        @apply relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-[13.5px] font-medium
+               text-slate-300/90 transition duration-200 hover:bg-white/[0.06] hover:text-white;
+    }
+
+    .nav-link-active {
+        @apply bg-brand-400/10 text-white;
+    }
+
+    .nav-link-active::before {
+        content: '';
+        @apply absolute left-0 top-1/2 h-6 w-[3px] -translate-y-1/2 rounded-r-full bg-brand-400;
+    }
+
+    .nav-icon {
+        @apply size-[18px] shrink-0 text-slate-400 transition group-hover:text-brand-300;
+    }
+
+    .nav-link-active .nav-icon {
+        @apply text-brand-400;
+    }
+
+    /* Table */
+    .table {
+        @apply w-full border-separate border-spacing-0 text-sm;
+    }
+
+    .table thead th {
+        @apply sticky top-0 z-10 border-b border-slate-200 bg-slate-50/80 px-4 py-3 text-left
+               text-[11px] font-semibold uppercase tracking-wider text-slate-500 backdrop-blur;
+    }
+
+    .table tbody td {
+        @apply border-b border-slate-100 px-4 py-3.5 align-middle text-slate-600;
+    }
+
+    .table tbody tr {
+        @apply transition-colors duration-150 hover:bg-slate-50/80;
+    }
+
+    /* Progress */
+    .progress {
+        @apply h-1.5 w-full overflow-hidden rounded-full bg-slate-200/80;
+    }
+
+    .progress-bar {
+        @apply h-full rounded-full bg-gradient-to-r from-brand-500 to-brand-300 transition-[width] duration-700 ease-out;
+    }
+
+    /* Page heading */
+    .eyebrow {
+        @apply text-[11px] font-bold uppercase tracking-[0.14em] text-brand-600;
+    }
+}
+
+/* ------------------------------------------------------------ utilities ---- */
+@layer utilities {
+    .text-balance {
+        text-wrap: balance;
+    }
+
+    .grid-noise {
+        background-image: radial-gradient(circle at 1px 1px, rgba(148, 163, 184, 0.35) 1px, transparent 0);
+        background-size: 22px 22px;
+    }
+
+    .animate-fade-up {
+        animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    .animate-fade-in {
+        animation: fadeIn 0.4s ease-out both;
+    }
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
+        transition-duration: 0.001ms !important;
+    }
+}
